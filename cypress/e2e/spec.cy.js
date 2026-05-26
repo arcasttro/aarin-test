@@ -19,8 +19,8 @@ describe("Fluxo de compra — EBAC Shop", () => {
     cy.intercept("POST", "/wp-admin/admin-ajax.php").as("wp-admin");
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.visit('/')
-    HomePage.clickVerTodos()
+    cy.visit("/");
+    HomePage.clickVerTodos();
   });
   describe("Fluxo completo de compra", () => {
     it("CT-01 | deve navegar da vitrine até o produto e exibir informações corretas", () => {
@@ -31,12 +31,13 @@ describe("Fluxo de compra — EBAC Shop", () => {
           ProductDetailsPage.getPreco().should("contain", preco);
         });
       });
+      cy.screenshot("Produto com informações corretas");
     });
 
     it("CT-02 | deve adicionar produto ao carrinho com sucesso", () => {
       ProductHelpers.adicionarProdutoAoCarrinho();
 
-      cy.validarCartFragment()
+      cy.validarCartFragment();
 
       cy.visit("/carrinho");
 
@@ -51,12 +52,13 @@ describe("Fluxo de compra — EBAC Shop", () => {
         });
       });
       CartPage.getQuantidade().should("have.value", "1");
+      cy.screenshot("Produto Adicionado ao Carrinho");
     });
 
     it("CT-03 | deve alterar a quantidade do item no carrinho", () => {
       ProductHelpers.adicionarProdutoAoCarrinho();
 
-      cy.validarCartFragment()
+      cy.validarCartFragment();
 
       cy.visit("/carrinho");
 
@@ -72,6 +74,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
           CartPage.getNomeProduto().should("contain", nome);
         });
       });
+      cy.screenshot("Quantidade de produto alterada no Carrinho");
     });
   });
 
@@ -79,7 +82,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
     beforeEach(() => {
       ProductHelpers.adicionarProdutoAoCarrinho();
 
-      cy.validarCartFragment()
+      cy.validarCartFragment();
 
       cy.visit("/carrinho");
     });
@@ -89,18 +92,21 @@ describe("Fluxo de compra — EBAC Shop", () => {
       CartPage.clickConcluirCompra();
 
       cy.url().should("include", "/checkout/");
+      cy.screenshot("Checkout acessado");
     });
 
     it("CT-05 | deve remover produto do carrinho", () => {
       CartPage.clickRemover();
 
       cy.contains("Seu carrinho está vazio").should("be.visible");
+      cy.screenshot("Produto removido");
     });
 
     it("CT-06 | deve manter quantidade mínima de 1", () => {
       CartPage.typeQuantidade(0);
 
       cy.url().should("include", "/carrinho/");
+      cy.screenshot("Quantidade mínima do produto");
     });
 
     it("CT-07 | [EXPECT_ERROR] deve respeitar quantidade máxima em estoque", () => {
@@ -133,6 +139,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
             expect(intValue).to.be.lte(NUM_STOCK);
           });
       });
+      cy.screenshot("Erro de exceder estoque");
     });
 
     it("CT-08 | deve exibir total correto após alteração de quantidade", () => {
@@ -146,6 +153,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
         CartPage.getPrecoTotalProduto().should("contain", TOTAL);
         CartPage.getTotalCarrinho().should("contain", TOTAL);
       });
+      cy.screenshot("Valor total correto");
     });
   });
 
@@ -153,7 +161,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
     beforeEach(() => {
       ProductHelpers.adicionarProdutoAoCarrinho();
 
-      cy.validarCartFragment()
+      cy.validarCartFragment();
 
       cy.visit("/carrinho");
       CartPage.getBotaoConcluirCompra().should("be.visible");
@@ -169,12 +177,14 @@ describe("Fluxo de compra — EBAC Shop", () => {
       CheckoutPage.clickFinalizarCompra();
       cy.wait("@checkout").its("response.statusCode").should("eq", 200);
       cy.url().should("include", "/checkout/order-received");
+      cy.screenshot("Compra finalizada corretamente");
     });
 
     it("CT-10 | deve exibir erros ao finalizar sem preencher campos obrigatórios", () => {
       CheckoutPage.aceitarTermos();
       CheckoutPage.clickFinalizarCompra();
       CheckoutPage.getErrosValidacao().should("have.length.greaterThan", 0);
+      cy.screenshot("Erro: campos obrigatorios");
     });
 
     it("CT-11 | deve exibir erro ao finalizar sem aceitar os termos", () => {
@@ -185,6 +195,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
         .should("be.visible")
         .invoke("text")
         .and("contain", "termos");
+      cy.screenshot("Erro: termos não aceitos");
     });
 
     it("CT-12 | deve exibir erro com email inválido", () => {
@@ -199,6 +210,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
         .should("be.visible")
         .invoke("text")
         .and("contain", "E-mail");
+      cy.screenshot("Erro: e-mail inválido");
     });
 
     it("CT-13 | deve exibir resumo do pedido consistente com o carrinho", () => {
@@ -219,6 +231,7 @@ describe("Fluxo de compra — EBAC Shop", () => {
           });
         });
       });
+      cy.screenshot("Resumo do pedido correto");
     });
   });
 });
