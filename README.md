@@ -77,7 +77,7 @@ npx cypress open
 
 ### Cenários mais críticos e justificativa
 
-**CT-02: Adicionar produto ao carrinho** é o cenário de maior criticidade. É o ponto de entrada da jornada de compra — sem ele nenhum outro fluxo funciona. Validei tanto o comportamento frontend (produto visível no carrinho) quanto o backend (cart_hash gerado via intercept da API).
+**CT-02: Adicionar produto ao carrinho** é o cenário de maior criticidade. É o ponto de entrada da jornada de compra. Validei tanto o comportamento frontend (produto visível no carrinho) quanto o backend (cart_hash gerado via intercept da API).
 
 **CT-09: Finalizar pedido** é o cenário de maior impacto de negócio. É onde a conversão acontece. Bug representa perda direta de receita.
 
@@ -90,7 +90,7 @@ npx cypress open
 | Risco | Impacto | Observação |
 |---|---|---|
 | Produtos variáveis com estoque por combinação | Alto | Resolvido com seleção dinâmica de variação disponível |
-| Estoque se esgota após finalizar pedido | Alto | Testes não fixam produto — seleção dinâmica adapta ao estado atual |
+| Estoque se esgota após finalizar pedido | Alto | Testes não fixam produto. Seleção dinâmica adapta ao estado atual |
 | Select2 cobre o select nativo de Estado | Médio | Resolvido com `force: true` |
 
 
