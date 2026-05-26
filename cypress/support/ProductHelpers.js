@@ -37,12 +37,13 @@ class ProductHelpers {
       cy.wrap(color).as("colorEscolhido");
       cy.wrap(String(estoque)).as("estoqueProduto");
 
-      cy.get(
-        `ul[data-attribute_name="attribute_size"] li[data-value="${size}"]`,
-      ).click();
-      cy.get(
-        `ul[data-attribute_name="attribute_color"] li[data-value="${color}"]`,
-      ).click();
+      cy.get('select[name="attribute_size"]')
+        .select(size, { force: true })
+        .trigger("change", { force: true });
+
+      cy.get('select[name="attribute_color"]')
+        .select(color, { force: true })
+        .trigger("change", { force: true });
 
       ProductDetailsPage.getBotaoComprar().should("not.have.class", "disabled");
       ProductDetailsPage.clickComprar();
