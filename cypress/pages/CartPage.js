@@ -28,27 +28,25 @@ class CartPage {
     return cy.get("a.checkout-button");
   }
 
-  getMensagemAlerta(){
-    return cy.get('div[role="alert"]')
+  getMensagemAlerta() {
+    return cy.get('div[role="alert"]');
   }
 
   typeQuantidade(value) {
-    this.getQuantidade().scrollIntoView()
-    .should('be.visible')
-    .clear()
-    .type(value);
+    this.getQuantidade()
+      .scrollIntoView()
+      .should("be.visible")
+      .clear()
+      .type(value)
+      .blur();
   }
 
   clickConcluirCompra() {
-    this.getBotaoConcluirCompra().scrollIntoView()
-    .should('be.visible')
-    .click()
+    this.getBotaoConcluirCompra().scrollIntoView().should("be.visible").click();
   }
 
   clickRemover() {
-    this.getBotaoRemover().scrollIntoView()
-    .should('be.visible')
-    .click()
+    this.getBotaoRemover().scrollIntoView().should("be.visible").click();
   }
 }
 

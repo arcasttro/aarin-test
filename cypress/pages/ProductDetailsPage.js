@@ -46,12 +46,11 @@ class ProductDetailsPage {
   selectSizeAndColor(size, color) {
     this.selectSize(size);
     this.selectColor(color);
-    this.getBotaoComprar().should("not.have.class", "disabled");
   }
 
   clickComprar() {
     this.getBotaoComprar().should("not.have.class", "disabled").click();
   }
-}
+} 
 
 export default new ProductDetailsPage();
