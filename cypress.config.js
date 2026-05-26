@@ -8,6 +8,12 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
 
-  baseUrl: 'http://lojaebac.ebaconline.art.br'
+    baseUrl: "http://lojaebac.ebaconline.art.br",
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    video: true,
+    screenshotOnRunFailure: true,
+    videosFolder: 'cypress/videos',
+    screenshotsFolder: 'cypress/screenshots',
   },
 });
